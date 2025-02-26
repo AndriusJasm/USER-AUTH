@@ -1,0 +1,1986 @@
+{
+	"info": {
+		"_postman_id": "4a90d594-8899-4477-8140-31ba97dad987",
+		"name": "user_auth",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41672977"
+	},
+	"item": [
+		{
+			"name": "TS1 Register",
+			"item": [
+				{
+					"name": "TC1.1 Register new user all parameters",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response should contain a user object\", function () {\r",
+									"    let jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property(\"message\", \"User registered successfully\");\r",
+									"    pm.expect(jsonData).to.have.property(\"user\");\r",
+									"    pm.expect(jsonData.user).to.have.property(\"id\");\r",
+									"    pm.expect(jsonData.user).to.have.property(\"username\");\r",
+									"    pm.expect(jsonData.user).to.have.property(\"email\");\r",
+									"    pm.expect(jsonData.user).to.have.property(\"created_at\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Pre-request script to generate random data and add to variables\r",
+									"pm.collectionVariables.set(\"randomUsername_pos\", \"user_\" + Math.floor(Math.random() * 1000));\r",
+									"pm.collectionVariables.set(\"randomEmail_pos\", \"email\" + Math.floor(Math.random() * 1000) + \"@demo.lt\");\r",
+									"pm.collectionVariables.set(\"randomTitle_pos\", \"Mr.\");\r",
+									"// Script to generate a random password and store it in a variable\r",
+									"pm.collectionVariables.set(\"randomPassword_pos\", Math.random().toString(36).substring(2, 10));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"{{randomUsername_pos}}\",\r\n    \"email\": \"{{randomEmail_pos}}\",\r\n    \"title\": \"{{randomTitle_pos}}.\",\r\n    \"password\": \"{{randomPassword_pos}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"register"
+							]
+						},
+						"description": "### Register User\n\nThis endpoint allows you to register a new user.\n\n#### Request Body\n\n- `username` (text): The username of the user.\n    \n- `email` (text): The email address of the user.\n    \n- `title` (text): The title of the user.\n    \n- `password` (text): The password for the user account.\n    \n\n#### Response\n\nUpon successful registration, the server responds with a status code of 201 and a JSON object containing a success message and user details including the user ID, username, email, title, and creation timestamp.\n\nExample:\n\n``` json\n{\n    \"message\": \"User registered successfully\",\n    \"user\": {\n        \"id\": 123,\n        \"username\": \"user_001\",\n        \"email\": \"email@demo.lt\",\n        \"title\": \"Mr.\",\n        \"created_at\": \"2022-01-01T12:00:00Z\"\n    }\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "TC1.2 Register new user mandatory parameters",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// KUOM ŠIS SKIRIASI NUO all parameters ???",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"register"
+							]
+						},
+						"description": "### Register User\n\nThis endpoint allows you to register a new user.\n\n#### Request Body\n\n- `username` (text): The username of the user.\n    \n- `email` (text): The email address of the user.\n    \n- `title` (text): The title of the user.\n    \n- `password` (text): The password for the user account.\n    \n\n#### Response\n\nUpon successful registration, the server responds with a status code of 201 and a JSON object containing a success message and user details including the user ID, username, email, title, and creation timestamp.\n\nExample:\n\n``` json\n{\n    \"message\": \"User registered successfully\",\n    \"user\": {\n        \"id\": 123,\n        \"username\": \"user_001\",\n        \"email\": \"email@demo.lt\",\n        \"title\": \"Mr.\",\n        \"created_at\": \"2022-01-01T12:00:00Z\"\n    }\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "TC1.3 Register - username not provided",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 400\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(400);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required field - error\", function () {\r",
+									"  const responseData = pm.response.json();\r",
+									"  pm.expect(responseData).to.have.property('error');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// pm.collectionVariables.set(\"randomUsername_neg\", \"user_\" + Math.floor(Math.random() * 1000));\r",
+									"pm.collectionVariables.set(\"randomEmail_neg\", \"email\" + Math.floor(Math.random() * 1000) + \"@demo.lt\");\r",
+									"pm.collectionVariables.set(\"randomTitle_neg\", \"Mr.\");\r",
+									"pm.collectionVariables.set(\"randomPassword_neg\", Math.random().toString(36).substring(2, 10));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{randomEmail_neg}}\",\r\n    \"title\": \"{{randomTitle_neg}}\",\r\n    \"password\": \"{{randomPassword_neg}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TC1.4 Register - username empty",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 400\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(400);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required field - error\", function () {\r",
+									"  const responseData = pm.response.json();\r",
+									"  pm.expect(responseData).to.have.property('error');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// pm.collectionVariables.set(\"randomUsername_neg\", \"user_\" + Math.floor(Math.random() * 1000));\r",
+									"pm.collectionVariables.set(\"randomEmail_neg\", \"email\" + Math.floor(Math.random() * 1000) + \"@demo.lt\");\r",
+									"pm.collectionVariables.set(\"randomTitle_neg\", \"Mr.\");\r",
+									"pm.collectionVariables.set(\"randomPassword_neg\", Math.random().toString(36).substring(2, 10));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"\",\r\n    \"email\": \"{{randomEmail_neg}}\",\r\n    \"title\": \"{{randomTitle_neg}}\",\r\n    \"password\": \"{{randomPassword_neg}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TC1.5 Register - username duplicated",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 400\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(400);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required field - error\", function () {\r",
+									"  const responseData = pm.response.json();\r",
+									"  pm.expect(responseData).to.have.property('error');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// pm.collectionVariables.set(\"randomUsername_neg\", \"user_\" + Math.floor(Math.random() * 1000));\r",
+									"pm.collectionVariables.set(\"randomEmail_neg\", \"email\" + Math.floor(Math.random() * 1000) + \"@demo.lt\");\r",
+									"pm.collectionVariables.set(\"randomTitle_neg\", \"Mr.\");\r",
+									"pm.collectionVariables.set(\"randomPassword_neg\", Math.random().toString(36).substring(2, 10));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"user_101\",\r\n    \"email\": \"{{randomEmail_neg}}\",\r\n    \"title\": \"{{randomTitle_neg}}\",\r\n    \"password\": \"{{randomPassword_neg}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TC1.6 Register - username length exceeds 50",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 400\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(400);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required field - error\", function () {\r",
+									"  const responseData = pm.response.json();\r",
+									"  pm.expect(responseData).to.have.property('error');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"randomUsername_neg\", \"users_\" + (Math.floor(Math.random() * 100000)).toString().repeat(9));\r",
+									"pm.collectionVariables.set(\"randomEmail_neg\", \"email\" + Math.floor(Math.random() * 1000) + \"@demo.lt\");\r",
+									"pm.collectionVariables.set(\"randomTitle_neg\", \"Mr.\");\r",
+									"pm.collectionVariables.set(\"randomPassword_neg\", Math.random().toString(36).substring(2, 10));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"{{randomUsername_neg}}\",\r\n    \"email\": \"{{randomEmail_neg}}\",\r\n    \"title\": \"{{randomTitle_neg}}\",\r\n    \"password\": \"{{randomPassword_neg}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TC1.7 Register - email not provided",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 400\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(400);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required field - error\", function () {\r",
+									"  const responseData = pm.response.json();\r",
+									"  pm.expect(responseData).to.have.property('error');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"randomUsername_neg\", \"user_\" + Math.floor(Math.random() * 1000));\r",
+									"// pm.collectionVariables.set(\"randomEmail_neg\", \"email\" + Math.floor(Math.random() * 1000) + \"@demo.lt\");\r",
+									"pm.collectionVariables.set(\"randomTitle_neg\", \"Mr.\");\r",
+									"pm.collectionVariables.set(\"randomPassword_neg\", Math.random().toString(36).substring(2, 10));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"{{randomUsername_neg}}\",\r\n    \"title\": \"{{randomTitle_neg}}\",\r\n    \"password\": \"{{randomPassword_neg}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"register"
+							]
+						},
+						"description": "### Register User\n\nThis endpoint allows you to register a new user.\n\n#### Request Body\n\n- `username` (text): The username of the user.\n    \n- `email` (text): The email address of the user.\n    \n- `title` (text): The title of the user.\n    \n- `password` (text): The password for the user account.\n    \n\n#### Response\n\nUpon successful registration, the server responds with a status code of 201 and a JSON object containing a success message and user details including the user ID, username, email, title, and creation timestamp.\n\nExample:\n\n``` json\n{\n    \"message\": \"User registered successfully\",\n    \"user\": {\n        \"id\": 123,\n        \"username\": \"user_001\",\n        \"email\": \"email@demo.lt\",\n        \"title\": \"Mr.\",\n        \"created_at\": \"2022-01-01T12:00:00Z\"\n    }\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "TC1.8 Register - email empty",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 400\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(400);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required field - error\", function () {\r",
+									"  const responseData = pm.response.json();\r",
+									"  pm.expect(responseData).to.have.property('error');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"randomUsername_neg\", \"user_\" + Math.floor(Math.random() * 1000));\r",
+									"// pm.collectionVariables.set(\"randomEmail_neg\", \"email\" + Math.floor(Math.random() * 1000) + \"@demo.lt\");\r",
+									"pm.collectionVariables.set(\"randomTitle_neg\", \"Mr.\");\r",
+									"pm.collectionVariables.set(\"randomPassword_neg\", Math.random().toString(36).substring(2, 10));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"{{randomUsername_neg}}\",\r\n    \"email\": \"\",\r\n    \"title\": \"{{randomTitle_neg}}\",\r\n    \"password\": \"{{randomPassword_neg}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"register"
+							]
+						},
+						"description": "### Register User\n\nThis endpoint allows you to register a new user.\n\n#### Request Body\n\n- `username` (text): The username of the user.\n    \n- `email` (text): The email address of the user.\n    \n- `title` (text): The title of the user.\n    \n- `password` (text): The password for the user account.\n    \n\n#### Response\n\nUpon successful registration, the server responds with a status code of 201 and a JSON object containing a success message and user details including the user ID, username, email, title, and creation timestamp.\n\nExample:\n\n``` json\n{\n    \"message\": \"User registered successfully\",\n    \"user\": {\n        \"id\": 123,\n        \"username\": \"user_001\",\n        \"email\": \"email@demo.lt\",\n        \"title\": \"Mr.\",\n        \"created_at\": \"2022-01-01T12:00:00Z\"\n    }\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "TC1.9 Register - email duplicated",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 400\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(400);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required field - error\", function () {\r",
+									"  const responseData = pm.response.json();\r",
+									"  pm.expect(responseData).to.have.property('error');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"randomUsername_neg\", \"user_\" + Math.floor(Math.random() * 1000));\r",
+									"// pm.collectionVariables.set(\"randomEmail_neg\", \"email\" + Math.floor(Math.random() * 1000) + \"@demo.lt\");\r",
+									"pm.collectionVariables.set(\"randomTitle_neg\", \"Mr.\");\r",
+									"pm.collectionVariables.set(\"randomPassword_neg\", Math.random().toString(36).substring(2, 10));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"{{randomUsername_neg}}\",\r\n    \"email\": \"email@demo.lt\",\r\n    \"title\": \"{{randomTitle_neg}}\",\r\n    \"password\": \"{{randomPassword_neg}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"register"
+							]
+						},
+						"description": "### Register User\n\nThis endpoint allows you to register a new user.\n\n#### Request Body\n\n- `username` (text): The username of the user.\n    \n- `email` (text): The email address of the user.\n    \n- `title` (text): The title of the user.\n    \n- `password` (text): The password for the user account.\n    \n\n#### Response\n\nUpon successful registration, the server responds with a status code of 201 and a JSON object containing a success message and user details including the user ID, username, email, title, and creation timestamp.\n\nExample:\n\n``` json\n{\n    \"message\": \"User registered successfully\",\n    \"user\": {\n        \"id\": 123,\n        \"username\": \"user_001\",\n        \"email\": \"email@demo.lt\",\n        \"title\": \"Mr.\",\n        \"created_at\": \"2022-01-01T12:00:00Z\"\n    }\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "TC1.10 Register - email length exceeds 100",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 400\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(400);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required field - error\", function () {\r",
+									"  const responseData = pm.response.json();\r",
+									"  pm.expect(responseData).to.have.property('error');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"randomUsername_neg\", \"users_\" + Math.floor(Math.random() * 1000));\r",
+									"pm.collectionVariables.set(\"randomEmail_neg\", \"email\" + (Math.floor(Math.random() * 100000)).toString().repeat(20) + \"@demo.lt\");\r",
+									"pm.collectionVariables.set(\"randomTitle_neg\", \"Mr.\");\r",
+									"pm.collectionVariables.set(\"randomPassword_neg\", Math.random().toString(36).substring(2, 10));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"{{randomUsername_neg}}\",\r\n    \"email\": \"{{randomEmail_neg}}\",\r\n    \"title\": \"{{randomTitle_neg}}\",\r\n    \"password\": \"{{randomPassword_neg}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"register"
+							]
+						},
+						"description": "### Register User\n\nThis endpoint allows you to register a new user.\n\n#### Request Body\n\n- `username` (text): The username of the user.\n    \n- `email` (text): The email address of the user.\n    \n- `title` (text): The title of the user.\n    \n- `password` (text): The password for the user account.\n    \n\n#### Response\n\nUpon successful registration, the server responds with a status code of 201 and a JSON object containing a success message and user details including the user ID, username, email, title, and creation timestamp.\n\nExample:\n\n``` json\n{\n    \"message\": \"User registered successfully\",\n    \"user\": {\n        \"id\": 123,\n        \"username\": \"user_001\",\n        \"email\": \"email@demo.lt\",\n        \"title\": \"Mr.\",\n        \"created_at\": \"2022-01-01T12:00:00Z\"\n    }\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "TC1.11 Register - password not provided",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 400\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(400);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.error).to.exist;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Error field is a non-empty string\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData.error).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Error field should not be empty\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"randomUsername_neg\", \"user_\" + Math.floor(Math.random() * 1000));\r",
+									"pm.collectionVariables.set(\"randomEmail_neg\", \"email\" + Math.floor(Math.random() * 1000) + \"@demo.lt\");\r",
+									"pm.collectionVariables.set(\"randomTitle_neg\", \"Mr.\");\r",
+									"// pm.collectionVariables.set(\"randomPassword_neg\", Math.random().toString(36).substring(2, 10));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"{{randomUsername_neg}}\",\r\n    \"email\": \"{{randomEmail_neg}}\",\r\n    \"title\": \"{{randomTitle_neg}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"register"
+							]
+						},
+						"description": "### Register User\n\nThis endpoint allows you to register a new user.\n\n#### Request Body\n\n- `username` (text): The username of the user.\n    \n- `email` (text): The email address of the user.\n    \n- `title` (text): The title of the user.\n    \n- `password` (text): The password for the user account.\n    \n\n#### Response\n\nUpon successful registration, the server responds with a status code of 201 and a JSON object containing a success message and user details including the user ID, username, email, title, and creation timestamp.\n\nExample:\n\n``` json\n{\n    \"message\": \"User registered successfully\",\n    \"user\": {\n        \"id\": 123,\n        \"username\": \"user_001\",\n        \"email\": \"email@demo.lt\",\n        \"title\": \"Mr.\",\n        \"created_at\": \"2022-01-01T12:00:00Z\"\n    }\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "TC1.12 Register - password empty",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 400\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(400);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.error).to.exist;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Error field is a non-empty string\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData.error).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Error field should not be empty\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"randomUsername_neg\", \"user_\" + Math.floor(Math.random() * 1000));\r",
+									"pm.collectionVariables.set(\"randomEmail_neg\", \"email\" + Math.floor(Math.random() * 1000) + \"@demo.lt\");\r",
+									"pm.collectionVariables.set(\"randomTitle_neg\", \"Mr.\");\r",
+									"// pm.collectionVariables.set(\"randomPassword_neg\", Math.random().toString(36).substring(2, 10));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"{{randomUsername_neg}}\",\r\n    \"email\": \"{{randomEmail_neg}}\",\r\n    \"title\": \"{{randomTitle_neg}}\",\r\n    \"password\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"register"
+							]
+						},
+						"description": "### Register User\n\nThis endpoint allows you to register a new user.\n\n#### Request Body\n\n- `username` (text): The username of the user.\n    \n- `email` (text): The email address of the user.\n    \n- `title` (text): The title of the user.\n    \n- `password` (text): The password for the user account.\n    \n\n#### Response\n\nUpon successful registration, the server responds with a status code of 201 and a JSON object containing a success message and user details including the user ID, username, email, title, and creation timestamp.\n\nExample:\n\n``` json\n{\n    \"message\": \"User registered successfully\",\n    \"user\": {\n        \"id\": 123,\n        \"username\": \"user_001\",\n        \"email\": \"email@demo.lt\",\n        \"title\": \"Mr.\",\n        \"created_at\": \"2022-01-01T12:00:00Z\"\n    }\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "TC1.13 Register - title length exceeds 50",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 400\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(400);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.error).to.exist;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Error field is a non-empty string\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData.error).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Error field should not be empty\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"randomUsername_neg\", \"users_\" + Math.floor(Math.random() * 1000));\r",
+									"pm.collectionVariables.set(\"randomEmail_neg\", \"email\" + Math.floor(Math.random() * 1000) + \"@demo.lt\");\r",
+									"pm.collectionVariables.set(\"randomTitle_neg\", \"Mr.\" + (Math.floor(Math.random() * 100000)).toString().repeat(10));\r",
+									"pm.collectionVariables.set(\"randomPassword_neg\", Math.random().toString(36).substring(2, 10));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"{{randomUsername_neg}}\",\r\n    \"email\": \"{{randomEmail_neg}}\",\r\n    \"title\": \"{{randomTitle_neg}}\",\r\n    \"password\": \"{{randomPassword_neg}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"register"
+							]
+						},
+						"description": "### Register User\n\nThis endpoint allows you to register a new user.\n\n#### Request Body\n\n- `username` (text): The username of the user.\n    \n- `email` (text): The email address of the user.\n    \n- `title` (text): The title of the user.\n    \n- `password` (text): The password for the user account.\n    \n\n#### Response\n\nUpon successful registration, the server responds with a status code of 201 and a JSON object containing a success message and user details including the user ID, username, email, title, and creation timestamp.\n\nExample:\n\n``` json\n{\n    \"message\": \"User registered successfully\",\n    \"user\": {\n        \"id\": 123,\n        \"username\": \"user_001\",\n        \"email\": \"email@demo.lt\",\n        \"title\": \"Mr.\",\n        \"created_at\": \"2022-01-01T12:00:00Z\"\n    }\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "TC1.14 Register - data not provided",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 400\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(400);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.error).to.exist;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Error field is a non-empty string\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData.error).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Error field should not be empty\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"register"
+							]
+						},
+						"description": "### Register User\n\nThis endpoint allows you to register a new user.\n\n#### Request Body\n\n- `username` (text): The username of the user.\n    \n- `email` (text): The email address of the user.\n    \n- `title` (text): The title of the user.\n    \n- `password` (text): The password for the user account.\n    \n\n#### Response\n\nUpon successful registration, the server responds with a status code of 201 and a JSON object containing a success message and user details including the user ID, username, email, title, and creation timestamp.\n\nExample:\n\n``` json\n{\n    \"message\": \"User registered successfully\",\n    \"user\": {\n        \"id\": 123,\n        \"username\": \"user_001\",\n        \"email\": \"email@demo.lt\",\n        \"title\": \"Mr.\",\n        \"created_at\": \"2022-01-01T12:00:00Z\"\n    }\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "TC1.15 Register - data empty",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 400\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(400);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.error).to.exist;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Error field is a non-empty string\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData.error).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Error field should not be empty\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"\",\r\n    \"email\": \"\",\r\n    \"title\": \"\",\r\n    \"password\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"register"
+							]
+						},
+						"description": "### Register User\n\nThis endpoint allows you to register a new user.\n\n#### Request Body\n\n- `username` (text): The username of the user.\n    \n- `email` (text): The email address of the user.\n    \n- `title` (text): The title of the user.\n    \n- `password` (text): The password for the user account.\n    \n\n#### Response\n\nUpon successful registration, the server responds with a status code of 201 and a JSON object containing a success message and user details including the user ID, username, email, title, and creation timestamp.\n\nExample:\n\n``` json\n{\n    \"message\": \"User registered successfully\",\n    \"user\": {\n        \"id\": 123,\n        \"username\": \"user_001\",\n        \"email\": \"email@demo.lt\",\n        \"title\": \"Mr.\",\n        \"created_at\": \"2022-01-01T12:00:00Z\"\n    }\n}\n\n ```"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TS2 Login",
+			"item": [
+				{
+					"name": "TC2.1 Login with valid data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"const token = pm.response.json().token;\r",
+									"pm.collectionVariables.set(\"token\", token)\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields - message and token\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.message).to.exist;\r",
+									"    pm.expect(responseData.token).to.exist;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Token is a non-empty string\", function () {\r",
+									"  const responseData = pm.response.json();\r",
+									"  \r",
+									"  pm.expect(responseData.token).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Token should not be empty\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"user_001\",\r\n    \"password\": \"abc123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TC2.2 Login - username not provided",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 400\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(400);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required field - error\", function () {\r",
+									"  const responseData = pm.response.json();\r",
+									"  pm.expect(responseData).to.have.property('error');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"abc123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TC2.3 Login - username empty",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 400\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(400);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required field - error\", function () {\r",
+									"  const responseData = pm.response.json();\r",
+									"  pm.expect(responseData).to.have.property('error');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"\",\r\n    \"password\": \"abc123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TC2.4 Login - username length exceeds 50",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 400\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(400);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required field - error\", function () {\r",
+									"  const responseData = pm.response.json();\r",
+									"  pm.expect(responseData).to.have.property('error');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"randomUsername_neg\", \"users_\" + (Math.floor(Math.random() * 100000)).toString().repeat(9));\r",
+									"// pm.collectionVariables.set(\"randomEmail_neg\", \"email\" + Math.floor(Math.random() * 1000) + \"@demo.lt\");\r",
+									"// pm.collectionVariables.set(\"randomTitle_neg\", \"Mr.\");\r",
+									"// pm.collectionVariables.set(\"randomPassword_neg\", Math.random().toString(36).substring(2, 10));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"{{randomUsername_neg}}\",\r\n    \"password\": \"abc123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TC2.5 Login - password not provided",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 400\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(400);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.error).to.exist;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Error field is a non-empty string\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData.error).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Error field should not be empty\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"randomUsername_neg\", \"user_\" + Math.floor(Math.random() * 1000));\r",
+									"// pm.collectionVariables.set(\"randomEmail_neg\", \"email\" + Math.floor(Math.random() * 1000) + \"@demo.lt\");\r",
+									"// pm.collectionVariables.set(\"randomTitle_neg\", \"Mr.\");\r",
+									"// pm.collectionVariables.set(\"randomPassword_neg\", Math.random().toString(36).substring(2, 10));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"{{randomUsername_neg}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"login"
+							]
+						},
+						"description": "### Register User\n\nThis endpoint allows you to register a new user.\n\n#### Request Body\n\n- `username` (text): The username of the user.\n    \n- `email` (text): The email address of the user.\n    \n- `title` (text): The title of the user.\n    \n- `password` (text): The password for the user account.\n    \n\n#### Response\n\nUpon successful registration, the server responds with a status code of 201 and a JSON object containing a success message and user details including the user ID, username, email, title, and creation timestamp.\n\nExample:\n\n``` json\n{\n    \"message\": \"User registered successfully\",\n    \"user\": {\n        \"id\": 123,\n        \"username\": \"user_001\",\n        \"email\": \"email@demo.lt\",\n        \"title\": \"Mr.\",\n        \"created_at\": \"2022-01-01T12:00:00Z\"\n    }\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "TC2.6 Login - password empty",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 400\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(400);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.error).to.exist;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Error field is a non-empty string\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData.error).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Error field should not be empty\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"randomUsername_neg\", \"user_\" + Math.floor(Math.random() * 1000));\r",
+									"// pm.collectionVariables.set(\"randomEmail_neg\", \"email\" + Math.floor(Math.random() * 1000) + \"@demo.lt\");\r",
+									"// pm.collectionVariables.set(\"randomTitle_neg\", \"Mr.\");\r",
+									"// pm.collectionVariables.set(\"randomPassword_neg\", Math.random().toString(36).substring(2, 10));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"{{randomUsername_neg}}\",\r\n    \"password\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"register"
+							]
+						},
+						"description": "### Register User\n\nThis endpoint allows you to register a new user.\n\n#### Request Body\n\n- `username` (text): The username of the user.\n    \n- `email` (text): The email address of the user.\n    \n- `title` (text): The title of the user.\n    \n- `password` (text): The password for the user account.\n    \n\n#### Response\n\nUpon successful registration, the server responds with a status code of 201 and a JSON object containing a success message and user details including the user ID, username, email, title, and creation timestamp.\n\nExample:\n\n``` json\n{\n    \"message\": \"User registered successfully\",\n    \"user\": {\n        \"id\": 123,\n        \"username\": \"user_001\",\n        \"email\": \"email@demo.lt\",\n        \"title\": \"Mr.\",\n        \"created_at\": \"2022-01-01T12:00:00Z\"\n    }\n}\n\n ```"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TS3 Update",
+			"item": [
+				{
+					"name": "Update user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.user.id).to.exist;\r",
+									"    pm.expect(responseData.user.username).to.exist;\r",
+									"    pm.expect(responseData.user.email).to.exist;\r",
+									"    pm.expect(responseData.user.title).to.exist;\r",
+									"    pm.expect(responseData.user.updated_at).to.exist;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Email is in a valid format\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData.user.email).to.be.a('string').and.to.match(/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Title is a non-empty string\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.user.title).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Title should not be empty\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInVzZXJuYW1lIjoidXNlcl8wMDEiLCJpYXQiOjE3NDA0NjM2ODIsImV4cCI6MTc0MDQ2NzI4Mn0.neJ4p0Euw8MHZwD7YNL8NrwwwyKNBTy4GdrrL2TovDk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"new_email@demo.lt\",\r\n    \"title\": \"Mr.\"    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update with wrong ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 403\", function () {\r",
+									"  pm.expect(pm.response.code).to.equal(403);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required field - error\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    pm.expect(responseData).to.have.property('error');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is within an acceptable range\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Validate the response schema\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.error).to.be.a('string');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInVzZXJuYW1lIjoidXNlcl8wMDEiLCJpYXQiOjE3NDA0NjM2ODIsImV4cCI6MTc0MDQ2NzI4Mn0.neJ4p0Euw8MHZwD7YNL8NrwwwyKNBTy4GdrrL2TovDk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"new_email@demo.lt\",\r\n    \"title\": \"Mr.\"    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update without ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInVzZXJuYW1lIjoidXNlcl8wMDEiLCJpYXQiOjE3NDA0NjM2ODIsImV4cCI6MTc0MDQ2NzI4Mn0.neJ4p0Euw8MHZwD7YNL8NrwwwyKNBTy4GdrrL2TovDk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"new_email@demo.lt\",\r\n    \"title\": \"Mr.\"    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update without email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInVzZXJuYW1lIjoidXNlcl8wMDEiLCJpYXQiOjE3NDA0NjM2ODIsImV4cCI6MTc0MDQ2NzI4Mn0.neJ4p0Euw8MHZwD7YNL8NrwwwyKNBTy4GdrrL2TovDk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Mr.\"    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update without title",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInVzZXJuYW1lIjoidXNlcl8wMDEiLCJpYXQiOjE3NDA0NjM2ODIsImV4cCI6MTc0MDQ2NzI4Mn0.neJ4p0Euw8MHZwD7YNL8NrwwwyKNBTy4GdrrL2TovDk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"new_email@demo.lt\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update empty user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInVzZXJuYW1lIjoidXNlcl8wMDEiLCJpYXQiOjE3NDA0NjM2ODIsImV4cCI6MTc0MDQ2NzI4Mn0.neJ4p0Euw8MHZwD7YNL8NrwwwyKNBTy4GdrrL2TovDk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "randomUsername_pos",
+			"value": ""
+		},
+		{
+			"key": "randomEmail_pos",
+			"value": ""
+		},
+		{
+			"key": "randomTitle_pos",
+			"value": ""
+		},
+		{
+			"key": "randomPassword_pos",
+			"value": ""
+		},
+		{
+			"key": "randomEmail_neg",
+			"value": ""
+		},
+		{
+			"key": "randomTitle_neg",
+			"value": ""
+		},
+		{
+			"key": "randomPassword_neg",
+			"value": ""
+		},
+		{
+			"key": "randomUsername_neg",
+			"value": ""
+		}
+	]
+}
